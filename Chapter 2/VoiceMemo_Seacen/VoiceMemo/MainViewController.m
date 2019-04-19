@@ -222,7 +222,7 @@
                                                   selector:@selector(updateMeter)];
     self.levelTimer.frameInterval = 5;
     [self.levelTimer addToRunLoop:[NSRunLoop currentRunLoop]
-                          forMode:NSDefaultRunLoopMode];
+                          forMode:NSRunLoopCommonModes];
 }
 
 - (void)stopMeterTimer {

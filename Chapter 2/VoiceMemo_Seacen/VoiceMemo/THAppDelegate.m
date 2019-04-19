@@ -35,15 +35,16 @@
     NSError *error;
     
     // 支持蓝牙耳机的方式
-    if ([[UIDevice currentDevice] systemVersion].floatValue>=10.0) {
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord
-                      withOptions:AVAudioSessionCategoryOptionAllowBluetoothA2DP
-                            error:&error];
-    } else {
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord
-                      withOptions:AVAudioSessionCategoryOptionAllowBluetooth
-                            error:&error];
-    }
+//    if ([[UIDevice currentDevice] systemVersion].floatValue>=10.0) {
+//        [session setCategory:AVAudioSessionCategoryPlayAndRecord
+//                      withOptions:AVAudioSessionCategoryOptionAllowBluetoothA2DP
+//                            error:&error];
+//    } else {
+//        [session setCategory:AVAudioSessionCategoryPlayAndRecord
+//                      withOptions:AVAudioSessionCategoryOptionAllowBluetooth
+//                            error:&error];
+//    }
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
     
     if (error) {
         NSLog(@"%@", error);

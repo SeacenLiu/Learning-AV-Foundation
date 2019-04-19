@@ -34,6 +34,7 @@
 @property (strong, nonatomic) AVAudioPlayer *player;
 @property (strong, nonatomic) AVAudioRecorder *recorder;
 @property (strong, nonatomic) THRecordingStopCompletionHandler completionHandler;
+@property (nonatomic, strong) THMeterTable *meterTable;
 
 @end
 
@@ -62,8 +63,12 @@
         
         if (self.recorder) {
             self.recorder.delegate = self;
+            // 十分重要
+            self.recorder.meteringEnabled = YES;
             [self.recorder prepareToRecord];
         }
+        
+        _meterTable = [THMeterTable new];
     }
     return self;
 }
@@ -112,11 +117,21 @@
 
 - (NSString*)documentsDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    return paths[0];
+    return [paths objectAtIndex:0];
 }
 
+/// 用于返回分贝级别大小
 - (THLevelPair *)levels {
-    return nil;
+    [self.recorder updateMeters];
+    // 平均强度值
+    float avgPower = [self.recorder averagePowerForChannel:0];
+    // 最大强度值
+    float peakPower = [self.recorder peakPowerForChannel:0];
+    //
+    float linearLevel = [self.meterTable valueForPower:avgPower];
+    //
+    float linearPeak = [self.meterTable valueForPower:peakPower];
+    return [THLevelPair levelsWithLevel:linearLevel peakLevel:linearPeak];
 }
 
 - (NSString *)formattedCurrentTime {
@@ -131,7 +146,15 @@
 
 - (BOOL)playbackMemo:(THMemo *)memo {
     [self.player stop];
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:memo.url error:nil];
+    
+    NSLog(@"%@", memo.url);
+    NSError *error;
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:memo.url error:&error];
+    
+    if (error) {
+        NSLog(@"play error: %@", error);
+        return NO;
+    }
     
     if (self.player) {
         [self.player play];
