@@ -79,7 +79,10 @@ static const NSString *PlayerItemStatusContext;
 
 - (void)prepareToPlay {
     // Listing 4.6
-    NSArray *keys = @[@"tracks", @"duration", @"commonMetadata"];
+    NSArray *keys = @[@"tracks",
+                      @"duration",
+                      @"commonMetadata",
+                      @"availableMediaCharacteristicsWithMediaSelectionOptions"];
     self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
     
     [self.playerItem addObserver:self
@@ -121,6 +124,9 @@ static const NSString *PlayerItemStatusContext;
                 // Listing 4.13
                 // 生成缩略图
                 [self generateThumbnails];
+                
+                // Lising 4.15
+                [self loadMediaOptions];
                 
             } else {
                 [UIAlertView showAlertWithTitle:@"Error" message:@"Failed to load Video."];
@@ -289,15 +295,34 @@ static const NSString *PlayerItemStatusContext;
 
 
 - (void)loadMediaOptions {
-
     // Listing 4.16
-    
+    NSString *mc = AVMediaCharacteristicLegible;
+    AVMediaSelectionGroup *group = [self.asset mediaSelectionGroupForMediaCharacteristic:mc];
+    if (group) {
+        NSMutableArray *subtitles = [NSMutableArray array];
+        for (AVMediaSelectionOption *option in group.options) {
+            [subtitles addObject:option.displayName];
+        }
+        [self.transport setSubtitles:subtitles];
+    } else {
+        [self.transport setSubtitles:nil];
+    }
 }
 
 - (void)subtitleSelected:(NSString *)subtitle {
-
     // Listing 4.17
-    
+    NSString *mc = AVMediaCharacteristicLegible;
+    AVMediaSelectionGroup *group = [self.asset mediaSelectionGroupForMediaCharacteristic:mc];
+    BOOL selected = NO;
+    for (AVMediaSelectionOption *option in group.options) {
+        if ([option.displayName isEqualToString:subtitle]) {
+            [self.playerItem selectMediaOption:option inMediaSelectionGroup:group];
+            selected = YES;
+        }
+    }
+    if (!selected) {
+        [self.playerItem selectMediaOption:nil inMediaSelectionGroup:group];
+    }
 }
 
 
