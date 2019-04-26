@@ -469,7 +469,7 @@
 				GCC_PREFIX_HEADER = "VideoPlayer/VideoPlayer-Prefix.pch";
 				INFOPLIST_FILE = "VideoPlayer/VideoPlayer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tapharmonic.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cppteam.VideoPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
@@ -486,7 +486,7 @@
 				GCC_PREFIX_HEADER = "VideoPlayer/VideoPlayer-Prefix.pch";
 				INFOPLIST_FILE = "VideoPlayer/VideoPlayer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tapharmonic.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cppteam.VideoPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;

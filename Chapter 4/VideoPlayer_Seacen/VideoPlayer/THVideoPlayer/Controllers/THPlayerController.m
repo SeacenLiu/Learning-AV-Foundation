@@ -221,6 +221,7 @@ static const NSString *PlayerItemStatusContext;
     [self.player pause];
     // 防止时间轴更新错乱
     [self.player removeTimeObserver:self.timeObserver];
+    self.timeObserver = nil;
 }
 
 /// 拖拽过程
