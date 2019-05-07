@@ -233,6 +233,7 @@ static const NSString *PlayerItemStatusContext;
     }
 }
 
+/// 添加播放计时器用于更新进度条
 - (void)addPlayerTimeObserver {
 
     // Create 0.5 second refresh interval - REFRESH_INTERVAL == 0.5
