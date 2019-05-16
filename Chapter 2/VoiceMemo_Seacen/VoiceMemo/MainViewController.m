@@ -196,6 +196,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     THMemo *memo = self.memos[indexPath.row];
+    // play error: Error Domain=NSOSStatusErrorDomain Code=2003334207 "(null)"
+    // 下次进入点击出现的未知错误...
     [self.controller playbackMemo:memo];
 }
 
